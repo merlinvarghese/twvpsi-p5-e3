@@ -15,15 +15,15 @@ class Distance {
         this.unit = unit;
     }
 
-    static Distance centimeter(int magnitude) {
+    static Distance centimeter(double magnitude) {
         return new Distance(magnitude, Unit.CM);
     }
 
-    static Distance meter(int magnitude) {
+    static Distance meter(double magnitude) {
         return new Distance(magnitude, Unit.M);
     }
 
-    static Distance kilometer(int magnitude) {
+    static Distance kilometer(double magnitude) {
         return new Distance(magnitude, Unit.KM);
     }
 
