@@ -1,11 +1,12 @@
 package com.tw.vapasi;
+
 import java.util.Objects;
 
 //Understands dimensions with different units
 class Measurement {
-    private  double value;
-    private  Unit unit;
-    private  Unit.UnitType unitType;
+    private double value;
+    private Unit unit;
+    private Unit.UnitType unitType;
 
     private Measurement(double value, Unit unit, Unit.UnitType unitType) {
         this.value = value;
@@ -26,7 +27,7 @@ class Measurement {
             return false;
         }
         Measurement otherMeasurement = (Measurement) other;
-        if(this.unit.isCompatibleType(otherMeasurement.unit)){
+        if (!this.unit.isCompatibleType(otherMeasurement.unit)) {
             return false;
         }
         return this.unit.convertToBase(this.value) == otherMeasurement.unit.convertToBase(otherMeasurement.value);
@@ -38,7 +39,7 @@ class Measurement {
     }
 
     Measurement add(Measurement otherObject) throws Exception {
-        if(this.unit.isCompatibleType(otherObject.unit)) {
+        if (!this.unit.isCompatibleType(otherObject.unit)) {
             throw new IncompatibleMeasurementTypeException();
         }
 
@@ -65,6 +66,18 @@ class Measurement {
 
     static Measurement kg(double magnitude) {
         return new Measurement(magnitude, Unit.KG, Unit.UnitType.WEIGHT);
+    }
+
+    static Measurement celcius(double magnitude) {
+        return new Measurement(magnitude, Unit.CELCIUS, Unit.UnitType.TEMPERATURE);
+    }
+
+    static Measurement kelvin(double magnitude) {
+        return new Measurement(magnitude, Unit.KELVIN, Unit.UnitType.TEMPERATURE);
+    }
+
+    static Measurement fahrenheit(double magnitude) {
+        return new Measurement(magnitude, Unit.FAHRENHEIT, Unit.UnitType.TEMPERATURE);
     }
 }
 

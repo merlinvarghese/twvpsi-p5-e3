@@ -1,7 +1,9 @@
 package com.tw.vapasi;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
 import static com.tw.vapasi.Measurement.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,6 +116,33 @@ class MeasurementTest {
             } catch (Exception e) {
                 //expected path
             }
+        }
+    }
+
+    @Nested
+    class TemperatureTests {
+        @Test
+        void expect1CelciusEquals274Kelvin() {
+            Measurement celcius = celcius(1);
+            Measurement kelvin = kelvin(274);
+
+            assertEquals(celcius, kelvin);
+        }
+
+        @Test
+        void expect50FahrenheitEquals10Celcius() {
+            Measurement fahrenheit = fahrenheit(50);
+            Measurement celcius = celcius(10);
+
+            assertEquals(fahrenheit, celcius);
+        }
+
+        @Test
+        void expect32FahrenheitEquals273Kelvin() {
+            Measurement fahrenheit = fahrenheit(32);
+            Measurement kelvin = kelvin(273);
+
+            assertEquals(fahrenheit, kelvin);
         }
     }
 }
