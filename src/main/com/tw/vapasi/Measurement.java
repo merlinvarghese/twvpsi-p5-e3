@@ -1,12 +1,11 @@
 package com.tw.vapasi;
-
 import java.util.Objects;
 
 //Understands dimensions with different units
 class Measurement {
-    private final double value;
-    private final Unit unit;
-    private final Unit.UnitType unitType;
+    private  double value;
+    private  Unit unit;
+    private  Unit.UnitType unitType;
 
     private Measurement(double value, Unit unit, Unit.UnitType unitType) {
         this.value = value;
@@ -26,13 +25,11 @@ class Measurement {
         if (getClass() != other.getClass()) {
             return false;
         }
-
         Measurement otherMeasurement = (Measurement) other;
-        if (isDifferentType(otherMeasurement)) {
+        if(this.unit.isCompatibleType(otherMeasurement.unit)){
             return false;
         }
-
-        return this.convertToBaseUnit() == otherMeasurement.convertToBaseUnit();
+        return this.unit.convertToBase(this.value) == otherMeasurement.unit.convertToBase(otherMeasurement.value);
     }
 
     @Override
@@ -40,8 +37,14 @@ class Measurement {
         return Objects.hash(value, unit);
     }
 
-    public double convertToBaseUnit() {
-        return this.unit.convertToBase(this.value);
+    Measurement add(Measurement otherObject) throws Exception {
+        if(this.unit.isCompatibleType(otherObject.unit)) {
+            throw new IncompatibleMeasurementTypeException();
+        }
+
+        double sumInBaseUnit = this.unit.convertToBase(this.value) + otherObject.unit.convertToBase(otherObject.value);
+        this.value = this.unit.convertFromBase(sumInBaseUnit);
+        return this;
     }
 
     static Measurement cms(double magnitude) {
@@ -62,14 +65,6 @@ class Measurement {
 
     static Measurement kg(double magnitude) {
         return new Measurement(magnitude, Unit.KG, Unit.UnitType.WEIGHT);
-    }
-
-    private double convertToBase() {
-        return this.unit.convertToBase(this.value);
-    }
-
-    private boolean isDifferentType(Measurement otherMeasurement) {
-        return this.unitType != otherMeasurement.unitType ;
     }
 }
 

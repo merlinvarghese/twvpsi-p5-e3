@@ -1,9 +1,7 @@
 package com.tw.vapasi;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import static com.tw.vapasi.Measurement.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,33 +57,63 @@ class MeasurementTest {
         void expectFalseWhenOneObjectIsNull() {
             assertNotEquals(null, cms(30));
         }
+
+        @Test
+        void expectSumOf100CmAnd2MeterIsEqualTo2200Cm() throws Exception {
+            Measurement cm = cms(100);
+            Measurement meter = meter(2);
+            Measurement expectedCm = cms(300);
+
+            Measurement actualCm = cm.add(meter);
+
+            assertEquals(expectedCm, actualCm);
+        }
     }
 
     @Nested
-    class WeightTests
-    {
+    class WeightTests {
         @Test
-        void expect1KgAnd1000GmsAreEqual()
-        {
+        void expect1KgAnd1000GmsAreEqual() {
             assertEquals(kg(1), gms(1000));
         }
 
         @Test
-        void expect2KgAnd200GmsAreNotEqual()
-        {
+        void expect2KgAnd200GmsAreNotEqual() {
             assertNotEquals(kg(2), gms(200));
         }
 
         @Test
-        void expect1KgAnd1KmAreNotEqual()
-        {
+        void expect1KgAnd1KmAreNotEqual() {
             assertNotEquals(kg(1), km(1));
         }
 
         @Test
-        void expect1KgAnd10MAreNotEqual()
-        {
+        void expect1KgAnd10MAreNotEqual() {
             assertNotEquals(kg(1), meter(10));
+        }
+
+        @Test
+        void expectSumOf2KgAnd200GmIsEqualTo2_2Kg() throws Exception {
+            Measurement kg = kg(2);
+            Measurement gm = gms(200);
+            Measurement expectedKg = kg(2.2);
+
+            Measurement actualKg = kg.add(gm);
+
+            assertEquals(expectedKg, actualKg);
+        }
+
+        @Test
+        void expectAdditionOfDistanceAndWeightUnitsAreNotAllowed() {
+            try {
+                Measurement cm = cms(100);
+                Measurement gm = gms(100);
+
+                Measurement actualResult = cm.add(gm);
+                Assertions.fail("Incompatible Unit Types");
+            } catch (Exception e) {
+                //expected path
+            }
         }
     }
 }
